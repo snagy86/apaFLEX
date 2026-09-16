@@ -8,17 +8,17 @@
 <!-- badges: end -->
 
 `apaFLEX` calculates and formats customisable APA 7 styled tables using
-the package. Producing APA 7 formatted tables in R usually means writing
-a lot of repetitive code, so apaFLEX was designed to save time and cut
-that down. Notably, `apaFLEX` also includes an argument that lets users
-download the formatted table as a Word document. This avoids the tedium
-of manually creating and re-editing tables in Word, as changes can be
-made in R and copied over to the working document.
+the `flextable` package. Producing APA 7 formatted tables in R usually
+means writing a lot of repetitive code, so apaFLEX was designed to save
+time and cut that down. Notably, `apaFLEX` also includes an argument
+that lets users download the formatted table as a Word document. This
+avoids the tedium of manually creating and re-editing tables in Word, as
+changes can be made in R and copied over to the working document.
 
 The package is currently very early in development after being tabled
 while I focused on my main project, the package `diy.sem.plot`
 (<https://github.com/snagy86/diy.sem.plot>), which is currently being
-reviewed by CRAN.
+reviewed for avai CRAN.
 
 `apaFLEX` can currently create descriptive statistics tables and
 demographic count tables. However, the code is likely still buggy, so
@@ -26,8 +26,8 @@ please use with caution.
 
 ## Installation
 
-You can install the development version of apaFLEX from
-[GitHub](https://github.com/) with:
+Run the following code to download the development version of the
+package.
 
 ``` r
 install.packages("pak")
