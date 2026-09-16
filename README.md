@@ -45,20 +45,10 @@ cars_table <- apa_descriptives(
   note = "an APA formatted note",
   footnotes = list("mpg" = "a footnote regarding mgp appears hear"))
 
-print(cars_table)
-#> a flextable object.
-#> col_keys: `Variable`, `M_Automatic`, `SD_Automatic`, `spacer_1`, `M_Manual`, `SD_Manual` 
-#> header has 4 row(s) 
-#> body has 2 row(s) 
-#> original dataset sample: 
-#> 'data.frame':    2 obs. of  6 variables:
-#>  $ Variable    : chr  "Miles Per Gallon" "Horsepower"
-#>  $ M_Automatic : chr  "17.15" "160.26"
-#>  $ SD_Automatic: chr  "3.83" "53.91"
-#>  $ spacer_1    : chr  "" ""
-#>  $ M_Manual    : chr  "24.39" "126.85"
-#>  $ SD_Manual   : chr  "6.17" "84.06"
+cars_table
 ```
+
+<img src="man/figures/README-example-1.png" alt="" width="100%" />
 
 Creating demographic count table for for mtcars dataset.
 
@@ -71,16 +61,18 @@ df <- data.frame(
   Condition = sample(c("A", "B"), 100, replace = TRUE)
 )
 
-apa_demographics(
+demographics_table <- apa_demographics(
   data = df,
   demo_vars = c("Gender", "Ethnicity"),
   group = "Condition",
   group_labels = c("A" = "Control", "B" = "Treatment"),
   total = TRUE,
-  title = list(number = "1", text = "Demographics Table by Condition"),
+  title = list(number = "2", text = "Demographics Table by Condition"),
   note = "Note in table 2",
   footnotes = list("Gender" = "here is letter a", "White" = "here is letter b")
 )
+
+demographics_table
 ```
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" alt="" width="100%" />

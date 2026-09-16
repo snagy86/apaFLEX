@@ -47,7 +47,7 @@ cars_table <- apa_descriptives(
   note = "an APA formatted note",
   footnotes = list("mpg" = "a footnote regarding mgp appears hear"))
 
-print(cars_table)
+cars_table
 ```
 
 Creating demographic count table for for mtcars dataset.
@@ -61,16 +61,18 @@ df <- data.frame(
   Condition = sample(c("A", "B"), 100, replace = TRUE)
 )
 
-apa_demographics(
+demographics_table <- apa_demographics(
   data = df,
   demo_vars = c("Gender", "Ethnicity"),
   group = "Condition",
   group_labels = c("A" = "Control", "B" = "Treatment"),
   total = TRUE,
-  title = list(number = "1", text = "Demographics Table by Condition"),
+  title = list(number = "2", text = "Demographics Table by Condition"),
   note = "Note in table 2",
   footnotes = list("Gender" = "here is letter a", "White" = "here is letter b")
 )
+
+demographics_table
 
 ```
 
