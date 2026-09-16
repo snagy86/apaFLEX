@@ -15,9 +15,14 @@ download the formatted table as a Word document. This avoids the tedium
 of manually creating and re-editing tables in Word, as changes can be
 made in R and copied over to the working document.
 
-It’s currently very early in development, and can create descriptive
-statistics tables and demographic count tables. However, the code is
-likely still buggy, so use with caution.
+The package is currently very early in development after being tabled
+while I focused on my main project, the package `diy.sem.plot`
+(<https://github.com/snagy86/diy.sem.plot>), which is currently being
+reviewed by CRAN.
+
+`apaFLEX` can currently create descriptive statistics tables and
+demographic count tables. However, the code is likely still buggy, so
+please use with caution.
 
 ## Installation
 
