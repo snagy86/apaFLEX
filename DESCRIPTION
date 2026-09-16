@@ -1,9 +1,10 @@
 Package: apaFLEX
-Title: What the Package Does (One Line, Title Case)
+Title: Create a variety of 
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Sebastian", "Nagy", , "snagy8610@gmail.com", role = c("aut", "cre", "crh"))
+Description: Generates APA 7th edition styled tables using 'flextable'. This package is a work in progress, 
+             currently can create descriptive statisitcs tables and demographic tables.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = FALSE)
@@ -11,3 +12,5 @@ Imports:
     flextable,
     officer
 Config/roxygen2/version: 8.1.0
+URL: https://github.com/snagy86/apaFLEX
+BugReports: https://github.com/snagy86/apaFLEX/issues
