@@ -43,7 +43,7 @@ cars_table <- apa_descriptives(
   group_labels = c("0" = "Automatic", "1" = "Manual"),
   title = list(number = "1", text = "Descriptive Statistics by Transmission Type"),
   note = "an APA formatted note",
-  footnotes = list("mpg" = "a footnote regarding mgp appears hear"))
+  footnotes = list("mpg" = "a footnote regarding mpg appears hear"))
 
 cars_table
 ```
@@ -69,7 +69,7 @@ demographics_table <- apa_demographics(
   total = TRUE,
   title = list(number = "2", text = "Demographics Table by Condition"),
   note = "Note in table 2",
-  footnotes = list("Gender" = "here is letter a", "White" = "here is letter b")
+  footnotes = list("Gender" = "here is letter a", "Ethnicity" = "here is letter b")
 )
 
 demographics_table
