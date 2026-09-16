@@ -22,7 +22,7 @@
 #'
 #' test_df <- data.frame(
 #'   Gender = c("Female", "Male", "Female", "Male", "Female"),
-#'   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),dev
+#'   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),
 #'   Condition = c("A", "A", "B", "B", "A")
 #' )
 #'
