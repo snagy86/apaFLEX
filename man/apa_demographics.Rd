@@ -24,43 +24,46 @@ apa_demographics(
 )
 }
 \arguments{
-\item{data}{A data frame containing demographic variables.}
+\item{data}{The data frame}
 
-\item{demo_vars}{Character vector of demographic column names to summarize.}
+\item{demo_vars}{Vector of categorical variable names in `data` to summarize.}
 
-\item{group}{Optional character string naming a grouping variable.}
+\item{group}{Optional categorical grouping variable.}
 
-\item{group_labels}{Optional named vector or character vector to custom label group levels.}
+\item{group_labels}{Optional display labels for the levels of `group`. Name each one with the exact value as it appears in the data (e.g. `c("f" = "Female", "m" = "Male")`) — order doesn't matter, only the names.}
 
-\item{total}{Logical; whether to include an overall Total column when grouping (default TRUE).}
+\item{total}{Logical. Whether to include an overall Total column when grouping (default TRUE).}
 
-\item{title}{Optional title list (e.g., list(number = "1", text = "Demographics")) or string.}
+\item{title}{Optional title list or string.}
 
-\item{font_family}{Font family (default "Times New Roman").}
+\item{font_family}{Font family (default "Times New Roman")}
 
-\item{font_size}{Font size in points (default 12).}
+\item{font_size}{Font size in points (default 12)}
 
-\item{line_thickness}{Border line thickness (default 1).}
+\item{line_thickness}{Border line thickness (default 1)}
 
-\item{spacer}{Logical, whether to insert blank gap columns between groups (default TRUE).}
+\item{spacer}{Logical. insert blank gap columns (default TRUE)}
 
-\item{padding_v}{Vertical cell padding (default 4).}
+\item{padding_v}{Vertical padding (default 4)}
 
-\item{padding_h}{Horizontal cell padding (default 6).}
+\item{padding_h}{Horizontal padding (default 6)}
 
-\item{note}{Optional APA note text below the table.}
+\item{note}{Optional APA note text.}
 
-\item{note_font_size}{Note font size (default 10).}
+\item{footnotes}{Optional named list mapping variable names to footnotes.}
 
-\item{save_as_docx}{Optional file path to save as a Word document.}
+\item{note_font_size}{Note font size (default 10)}
+
+\item{save_as_docx}{Optional path to save Word file.}
 }
 \value{
 A flextable object.
 }
 \description{
-Summarises categorical demographic variables into separate N and \% columns and outputs an APA 7 styled flextable.
+Summarises categorical demographic variables into separate N and \% columns and outputs a ready-for-use customisable APA 7 styled flextable.
 }
 \examples{
+
 test_df <- data.frame(
   Gender = c("Female", "Male", "Female", "Male", "Female"),
   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),
@@ -71,7 +74,11 @@ apa_demographics(
   data = test_df,
   demo_vars = c("Gender", "Ethnicity"),
   group = "Condition",
+  group_labels = c("A" = "Control", "B" = "Treatment"),
   total = TRUE,
-  title = "Table 1. Sample Demographics"
+  title = list(number = "1", text = "Sample Demographics"),
+  note = "Note goes here",
+  footnotes = list(Gender = "footnote here")
 )
+
 }

@@ -9,6 +9,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = FALSE)
 Imports: 
+    dplyr,
     flextable,
     officer
 Config/roxygen2/version: 8.1.0

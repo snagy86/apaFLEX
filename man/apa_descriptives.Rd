@@ -26,21 +26,21 @@ apa_descriptives(
 )
 }
 \arguments{
-\item{data}{The data frame}
+\item{data}{The name of data frame}
 
-\item{vars}{List variables to be included in table.}
+\item{vars}{Vector of variable names in `data` to include. Variables can also be named to be relabeled for output (e.g. `c("mpg" = "Miles per Gallon")`); unnamed entries just use the raw column name.}
 
-\item{title}{Optional title list or string.}
+\item{title}{Logical. Optional title list or string.}
 
-\item{range}{Whether to include observed min-max range (default FALSE)}
+\item{range}{Logical.Whether to include observed min-max range (default FALSE)}
 
-\item{possible_range}{Optional custom text per variable.}
+\item{possible_range}{Optional custom text per variable under column tilted "Possible Range".}
 
-\item{median}{Whether to include median column (default FALSE)}
+\item{median}{Logical.Whether to include median column (default FALSE)}
 
 \item{group}{Optional categorical grouping variable.}
 
-\item{group_labels}{Optional character vector or named vector to custom-label group levels.}
+\item{group_labels}{#' @param group_labels Optional display labels for the levels of `group` (e.g. `c("0" = "Automatic", "1" = "Manual")`).}
 
 \item{font_family}{Font family (default "Times New Roman")}
 
@@ -48,7 +48,7 @@ apa_descriptives(
 
 \item{line_thickness}{Border line thickness (default 1)}
 
-\item{spacer}{Logical, insert blank gap columns (default TRUE)}
+\item{spacer}{Logical. insert blank gap columns (default TRUE)}
 
 \item{padding_v}{Vertical padding (default 4)}
 
@@ -61,15 +61,12 @@ apa_descriptives(
 \item{footnotes}{Optional named list mapping column names to footnotes.}
 
 \item{save_as_docx}{Optional path to save Word file.}
-
-\item{obs_col}{Name of column identifying time points or observations.}
-
-\item{select_obs}{Specific observation value to filter by (e.g. \code{"0"}).}
-
-\item{id}{Subject or cluster identifier column.}
+}
+\value{
+A flextable object.
 }
 \description{
-Calculates descriptive statistics (mean, standard deviation, etc.) from data and generates a ready-for-use customisable APA 7 styled table using flextable.
+Calculates descriptive statistics (mean, standard deviation, etc.) from data and outputs a ready-for-use customisable APA 7 styled table using flextable.
 }
 \examples{
 apa_descriptives(
@@ -79,6 +76,7 @@ apa_descriptives(
   group_labels = c("0" = "Automatic", "1" = "Manual"),
   title = list(number = "1", text = "Vehicle Performance by Transmission Type"),
   note = "Note goes here",
-  footnotes = list(mpg = "footnote here")
+  footnotes = list("mpg" = "footnote here")
 )
+
 }

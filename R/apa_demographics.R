@@ -19,9 +19,10 @@
 #' @param footnotes Optional named list mapping variable names to footnotes.
 #' @param save_as_docx Optional path to save Word file.
 #' @examples
+#'
 #' test_df <- data.frame(
 #'   Gender = c("Female", "Male", "Female", "Male", "Female"),
-#'   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),
+#'   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),dev
 #'   Condition = c("A", "A", "B", "B", "A")
 #' )
 #'
@@ -37,45 +38,6 @@
 #' )
 #'
 #' @return A flextable object.
-#' @export
-
-#' Create APA 7 Style Demographic Tables
-#'
-#' Summarises categorical demographic variables into separate N and \% columns and outputs a ready-for-use customisable APA 7 styled flextable.
-#'
-#' @param data A data frame containing demographic variables.
-#' @param demo_vars Character vector of demographic column names to summarize.
-#' @param group Optional character string naming a grouping variable.
-#' @param group_labels Optional display labels for the levels of `group`. Name each one with the exact value as it appears in the data (e.g. `c("f" = "Female", "m" = "Male")`) — order doesn't matter, only the names.
-#' @param total Logical; whether to include an overall Total column when grouping (default TRUE).
-#' @param title Optional title list (e.g., list(number = "1", text = "Demographics")) or string.
-#' @param font_family Font family (default "Times New Roman").
-#' @param font_size Font size in points (default 12).
-#' @param line_thickness Border line thickness (default 1).
-#' @param spacer Logical, whether to insert blank gap columns between groups (default TRUE).
-#' @param padding_v Vertical cell padding (default 4).
-#' @param padding_h Horizontal cell padding (default 6).
-#' @param note Optional APA note text below the table.
-#' @param footnotes Optional named list mapping demographic variable names to footnote text.
-#' @param note_font_size Note font size (default 10).
-#' @param save_as_docx Optional file path to save as a Word document.
-#'
-#' @return A flextable object.
-#'
-#' @examples
-#' test_df <- data.frame(
-#'   Gender = c("Female", "Male", "Female", "Male", "Female"),
-#'   Ethnicity = c("White", "Black", "Asian", "White", "Hispanic"),
-#'   Condition = c("A", "A", "B", "B", "A")
-#' )
-#'
-#' apa_demographics(
-#'   data = test_df,
-#'   demo_vars = c("Gender", "Ethnicity"),
-#'   group = "Condition",
-#'   total = TRUE,
-#'   title = "Table 1. Sample Demographics"
-#' )
 #' @export
 
 apa_demographics <- function(data, demo_vars,
@@ -173,13 +135,12 @@ apa_demographics <- function(data, demo_vars,
 
   final_table <- dplyr::bind_rows(results)
   header_indices <- which(final_table$is_header)
-  final_table <- final_table |> dplyr::select(-is_header)
+  final_table$is_header <- NULL
 
   col_names <- names(final_table)
 
   ft <- flextable::flextable(final_table)
 
-  # if group is active changes header structure
   if (!is.null(group)) {
     top <- character(length(col_names))
     bottom <- character(length(col_names))
@@ -206,8 +167,6 @@ apa_demographics <- function(data, demo_vars,
     if ("pct" %in% names(header_labels)) header_labels["pct"] <- "%"
     ft <- flextable::set_header_labels(ft, values = header_labels)
   }
-
-  #blank canvas
 
   ft <- flextable::border_remove(ft)
 
