@@ -17,7 +17,7 @@ changes can be made in R and copied over to the working document.
 
 The package is currently very early in development after being tabled
 while I focused on my main project, the package `diy.sem.plot`
-(<https://github.com/snagy86/diy.sem.plot>), which is undergoing manual
+(<https://github.com/snagy86/diy.sem.plot>), which is waiting for manual
 CRAN inspection.
 
 `apaFLEX` can currently create descriptive statistics tables and
