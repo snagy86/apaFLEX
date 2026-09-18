@@ -36,12 +36,12 @@
 
 apa_descriptives <- function(data, vars,
                              title = NULL,
-                             range = FALSE, possible_range = NULL, median = FALSE,
-                             group = NULL, group_labels = NULL,
+                             n_per_variable = FALSE, range = FALSE, possible_range = NULL, median = FALSE, kurtosis  = FALSE, skewness = FALSE,
+                             group = NULL, group_labels = NULL, show_group_n = TRUE,
                              font_family = "Times New Roman", font_size = 12,
-                             line_thickness = 1, spacer = TRUE,
+                             line_thickness = 1, spacer = TRUE, digits= 3,
                              padding_v = 4, padding_h = 6,
-                             note = NULL, note_font_size = 10,
+                             note = NULL, auto_notes = FALSE, note_total_n = FALSE, note_font_size = 10,
                              footnotes = NULL,
                              save_as_docx = NULL) {
 
@@ -49,6 +49,22 @@ apa_descriptives <- function(data, vars,
 
   footnote_row_map <- list()
 
+  digs <- paste0("%.", digits, "f")
+
+  total_n <- paste0("N = ", nrow(data), ". ")
+
+  if(note_total_n){
+    note <- if (is.null(note)) total_n else paste0(total_n, " ", note)
+  }
+
+  add_notes <- character(0)
+  if (kurtosis) add_notes <- c(add_notes, "Kurtosis is calculated asPearson's measure of kurtosis using the moments package (v.0.14.1; Komsta & Novomestky, 2022). A value of 3 is kurtosis of normal distribution.")
+  if (skewness) add_notes <- c(add_notes, "Skewness calculated using the moments package (v.0.14.1; Komsta & Novomestky, 2022). A value of 0 indicates no skewness")
+
+  if(length(add_notes) > 0 && auto_notes){
+    combined = paste0(add_notes, collapse =  " ")
+    note <- if (is.null(note)) combined else paste0(note, " ", combined)
+  }
 
   if (!is.null(group)) {
     group_col <- as.factor(data[[group]])
@@ -58,6 +74,13 @@ apa_descriptives <- function(data, vars,
       levels(group_col) <- new_lvls
     }
     group_levels <- levels(group_col)
+  }
+
+  if (show_group_n) {
+    group_n <- table(group_col)
+    display <- paste0(group_levels, " (n = ", group_n, ")")
+  } else {
+    display <- group_levels
   }
 
   for (i in seq_along(vars)) {
@@ -74,26 +97,31 @@ apa_descriptives <- function(data, vars,
 
     if (is.null(group)) {
       x <- data[[col_name]]
-      row$M  <- sprintf("%.2f", mean(x, na.rm = TRUE))
-      row$SD <- sprintf("%.2f", stats::sd(x, na.rm = TRUE))
-      if (median) row$Median <- sprintf("%.2f", stats::median(x, na.rm = TRUE))
+      if(n_per_variable) row$n <- sum(!is.na(x))
+      row$M  <- sprintf(digs, mean(x, na.rm = TRUE))
+      row$SD <- sprintf(digs, stats::sd(x, na.rm = TRUE))
+      if (median) row$Median <- sprintf(digs, stats::median(x, na.rm = TRUE))
       if (range) {
         row$Range <- if (all(is.na(x))) NA_character_ else
-          paste0(sprintf("%.2f", min(x, na.rm = TRUE)), "\u2013", sprintf("%.2f", max(x, na.rm = TRUE)))
+          paste0(sprintf(digs, min(x, na.rm = TRUE)), "\u2013", sprintf(digs, max(x, na.rm = TRUE)))
       }
+      if (kurtosis) row$Kurtosis <- sprintf(digs, moments::kurtosis(x, na.rm = TRUE))
+      if (skewness) row$Skewness <- sprintf(digs, moments::skewness(x, na.rm = TRUE))
 
     } else {
       for (gi in seq_along(group_levels)) {
         g <- group_levels[gi]
         x <- data[[col_name]][group_col == g]
-        row[[paste0("M_", g)]]  <- sprintf("%.2f", mean(x, na.rm = TRUE))
-        row[[paste0("SD_", g)]] <- sprintf("%.2f", stats::sd(x, na.rm = TRUE))
-        if (median) row[[paste0("Median_", g)]] <- sprintf("%.2f", stats::median(x, na.rm = TRUE))
+        if (n_per_variable) row[[paste0("n_", g)]] <- sum(!is.na(x))
+        row[[paste0("M_", g)]]  <- sprintf(digs, mean(x, na.rm = TRUE))
+        row[[paste0("SD_", g)]] <- sprintf(digs, stats::sd(x, na.rm = TRUE))
+        if (median) row[[paste0("Median_", g)]] <- sprintf(digs, stats::median(x, na.rm = TRUE))
         if (range) {
           row[[paste0("Range_", g)]] <- if (all(is.na(x))) NA_character_ else
-            paste0(sprintf("%.2f", min(x, na.rm = TRUE)), "\u2013", sprintf("%.2f", max(x, na.rm = TRUE)))
+            paste0(sprintf(digs, min(x, na.rm = TRUE)), "\u2013", sprintf(digs, max(x, na.rm = TRUE)))
         }
-
+        if (kurtosis) row[[paste0("Kurtosis_", g)]] <- sprintf(digs, moments::kurtosis(x, na.rm = TRUE))
+        if (skewness) row[[paste0("Skewness_", g)]] <- sprintf(digs, moments::skewness(x, na.rm = TRUE))
         if (spacer && gi < length(group_levels)) {
           row[[paste0("spacer_", gi)]] <- ""
         }
@@ -132,7 +160,8 @@ apa_descriptives <- function(data, vars,
       } else if (grepl("_", cn)) {
         pos <- regexpr("_", cn)
         bottom[i] <- substr(cn, 1, pos - 1)
-        top[i] <- substr(cn, pos + 1, nchar(cn))
+        raw_group <- substr(cn, pos + 1, nchar(cn))
+        top[i] <- display[match(raw_group, group_levels)]
       } else {
         top[i] <- cn; bottom[i] <- ""
       }
@@ -155,7 +184,7 @@ apa_descriptives <- function(data, vars,
   ft <- flextable::align(ft, j = align_cols, align = "center", part = "all")
   ft <- flextable::align(ft, j = "Variable", align = "left", part = "all")
 
-  italic_stat_keys <- col_names[grepl("^(M|SD|Median)($|_)", col_names)]
+  italic_stat_keys <- col_names[grepl("^(n|M|SD|Median|Kurtosis|Skewness)($|_)", col_names)]
   if (length(italic_stat_keys) > 0) {
     ft <- flextable::italic(ft, j = italic_stat_keys, part = "header")
   }
@@ -271,3 +300,5 @@ apa_descriptives <- function(data, vars,
 
   ft
 }
+
+table1 <- apaTables::apa.cor.table(mtcars, filename = 'Table1.doc')
