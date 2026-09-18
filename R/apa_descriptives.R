@@ -300,5 +300,3 @@ apa_descriptives <- function(data, vars,
 
   ft
 }
-
-table1 <- apaTables::apa.cor.table(mtcars, filename = 'Table1.doc')
